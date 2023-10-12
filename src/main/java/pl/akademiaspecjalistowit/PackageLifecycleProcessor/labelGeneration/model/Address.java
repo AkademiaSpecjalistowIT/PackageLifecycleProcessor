@@ -1,4 +1,4 @@
-package pl.akademiaspecjalistowit.PackageLifecycleProcessor.labelGeneration.dto;
+package pl.akademiaspecjalistowit.PackageLifecycleProcessor.labelGeneration.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

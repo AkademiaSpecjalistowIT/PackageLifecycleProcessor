@@ -5,8 +5,8 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class UserDto {
-    private AddressDto address;
-    private String phoneNumber;
-    private String email;
+public class AddressDto {
+    private String city;
+    private String postalCode;
+    private String addressLine;
 }

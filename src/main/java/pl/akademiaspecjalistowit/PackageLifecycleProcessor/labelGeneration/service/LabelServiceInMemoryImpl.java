@@ -1,20 +1,22 @@
 package pl.akademiaspecjalistowit.PackageLifecycleProcessor.labelGeneration.service;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 import pl.akademiaspecjalistowit.PackageLifecycleProcessor.labelGeneration.dto.LabelDto;
 import pl.akademiaspecjalistowit.PackageLifecycleProcessor.labelGeneration.exception.NotImplementedException;
+import pl.akademiaspecjalistowit.PackageLifecycleProcessor.labelGeneration.mapper.LabelMapper;
+import pl.akademiaspecjalistowit.PackageLifecycleProcessor.labelGeneration.model.Label;
 
 @Service
 public class LabelServiceInMemoryImpl implements LabelService {
 
-    private Map<UUID, LabelDto> labelDtoMap;
-
+    private Map<UUID, Label> labelMap;
 
     public LabelServiceInMemoryImpl() {
-        this.labelDtoMap = Map.of();
+        this.labelMap = new HashMap<>();
     }
 
     @Override
@@ -24,6 +26,9 @@ public class LabelServiceInMemoryImpl implements LabelService {
 
     @Override
     public UUID registerPackage(LabelDto labelDto) {
-        throw new NotImplementedException("registerPackage feature not implemented");
+        UUID packageId = UUID.randomUUID();
+        Label label = LabelMapper.fromDto(labelDto, packageId);
+        labelMap.put(packageId, label);
+        return packageId;
     }
 }

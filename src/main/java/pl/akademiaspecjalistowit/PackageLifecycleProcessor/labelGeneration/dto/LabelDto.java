@@ -10,7 +10,8 @@ public class LabelDto {
     private UserDto receiver;
     private UserDto sender;
 
-    public LabelDto(UUID packageId, String packageSize,
+    public LabelDto(UUID packageId,
+                    String packageSize,
                     UserDto receiver,
                     UserDto sender) {
         this.packageId = packageId;
