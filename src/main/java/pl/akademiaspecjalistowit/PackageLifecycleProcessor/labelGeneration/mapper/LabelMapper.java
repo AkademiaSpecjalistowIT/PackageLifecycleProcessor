@@ -24,4 +24,20 @@ public class LabelMapper {
     private static Address fromDto(AddressDto addressDto) {
         return new Address(addressDto.getCity(), addressDto.getPostalCode(), addressDto.getAddressLine());
     }
+
+    public static LabelDto toDto(Label label) {
+        return new LabelDto(label.getPackageId(),
+            label.getPackageSize(),
+            toDto(label.getReceiver()),
+            toDto(label.getSender()));
+    }
+
+    private static UserDto toDto(User user) {
+        return new UserDto(toDto(user.getAddress()), user.getPhoneNumber(), user.getEmail());
+    }
+
+    private static AddressDto toDto(Address address) {
+        return new AddressDto(address.getCity(), address.getPostalCode(), address.getAddressLine());
+    }
+
 }

@@ -6,7 +6,6 @@ import java.util.Optional;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 import pl.akademiaspecjalistowit.PackageLifecycleProcessor.labelGeneration.dto.LabelDto;
-import pl.akademiaspecjalistowit.PackageLifecycleProcessor.labelGeneration.exception.NotImplementedException;
 import pl.akademiaspecjalistowit.PackageLifecycleProcessor.labelGeneration.mapper.LabelMapper;
 import pl.akademiaspecjalistowit.PackageLifecycleProcessor.labelGeneration.model.Label;
 
@@ -21,7 +20,8 @@ public class LabelServiceInMemoryImpl implements LabelService {
 
     @Override
     public Optional<LabelDto> getPackageLabel(UUID packageId) {
-        throw new NotImplementedException("GetLabel feature not implemented");
+        return Optional.ofNullable(labelMap.get(packageId))
+            .map(LabelMapper::toDto);
     }
 
     @Override
