@@ -9,6 +9,7 @@ public class Label {
     private String packageSize;
     private User receiver;
     private User sender;
+    private PaymentStatus paymentStatus;
 
     public Label(UUID packageId,
                  String packageSize,
@@ -18,6 +19,7 @@ public class Label {
         this.packageSize = packageSize;
         this.receiver = receiver;
         this.sender = sender;
+        this.paymentStatus = PaymentStatus.PENDING;
     }
 
 }

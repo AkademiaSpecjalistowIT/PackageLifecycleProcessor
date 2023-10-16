@@ -16,12 +16,11 @@ import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.service.LabelSe
 @AllArgsConstructor
 public class LabelController {
 
-    private LabelService labelService;
+    private final LabelService labelService;
 
     @GetMapping("/label/{packageId}")
     public LabelDto getPackageLabel(@PathVariable UUID packageId) {
-       return  labelService.getPackageLabel(packageId)
-            .orElseThrow(LabelNotFoundException::new);
+       return labelService.getPackageLabel(packageId);
     }
 
     @PostMapping("/label")
