@@ -1,12 +1,12 @@
-package pl.akademiaspecjalistowit.PackageLifecycleProcessor.labelGeneration.mapper;
+package pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.mapper;
 
 import java.util.UUID;
-import pl.akademiaspecjalistowit.PackageLifecycleProcessor.labelGeneration.dto.AddressDto;
-import pl.akademiaspecjalistowit.PackageLifecycleProcessor.labelGeneration.dto.LabelDto;
-import pl.akademiaspecjalistowit.PackageLifecycleProcessor.labelGeneration.dto.UserDto;
-import pl.akademiaspecjalistowit.PackageLifecycleProcessor.labelGeneration.model.Address;
-import pl.akademiaspecjalistowit.PackageLifecycleProcessor.labelGeneration.model.Label;
-import pl.akademiaspecjalistowit.PackageLifecycleProcessor.labelGeneration.model.User;
+import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.dto.AddressDto;
+import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.dto.LabelDto;
+import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.dto.UserDto;
+import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.model.Address;
+import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.model.Label;
+import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.model.User;
 
 public class LabelMapper {
 

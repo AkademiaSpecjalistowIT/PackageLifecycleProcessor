@@ -1,8 +1,8 @@
-package pl.akademiaspecjalistowit.PackageLifecycleProcessor.labelGeneration.service;
+package pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.service;
 
 import java.util.Optional;
 import java.util.UUID;
-import pl.akademiaspecjalistowit.PackageLifecycleProcessor.labelGeneration.dto.LabelDto;
+import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.dto.LabelDto;
 
 public interface LabelService {
 

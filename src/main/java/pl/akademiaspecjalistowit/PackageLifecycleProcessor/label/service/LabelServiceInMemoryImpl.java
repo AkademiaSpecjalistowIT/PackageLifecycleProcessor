@@ -1,13 +1,13 @@
-package pl.akademiaspecjalistowit.PackageLifecycleProcessor.labelGeneration.service;
+package pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.service;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
-import pl.akademiaspecjalistowit.PackageLifecycleProcessor.labelGeneration.dto.LabelDto;
-import pl.akademiaspecjalistowit.PackageLifecycleProcessor.labelGeneration.mapper.LabelMapper;
-import pl.akademiaspecjalistowit.PackageLifecycleProcessor.labelGeneration.model.Label;
+import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.dto.LabelDto;
+import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.mapper.LabelMapper;
+import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.model.Label;
 
 @Service
 public class LabelServiceInMemoryImpl implements LabelService {

@@ -1,4 +1,4 @@
-package pl.akademiaspecjalistowit.PackageLifecycleProcessor.labelGeneration.model;
+package pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.model;
 
 import java.util.UUID;
 import lombok.Getter;

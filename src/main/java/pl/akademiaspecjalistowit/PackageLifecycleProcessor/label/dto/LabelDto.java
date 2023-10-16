@@ -1,4 +1,4 @@
-package pl.akademiaspecjalistowit.PackageLifecycleProcessor.labelGeneration.dto;
+package pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.dto;
 
 import java.util.UUID;
 import lombok.Getter;

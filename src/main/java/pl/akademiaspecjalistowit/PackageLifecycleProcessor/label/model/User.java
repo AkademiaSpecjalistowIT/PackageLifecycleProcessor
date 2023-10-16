@@ -1,4 +1,4 @@
-package pl.akademiaspecjalistowit.PackageLifecycleProcessor.labelGeneration.model;
+package pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

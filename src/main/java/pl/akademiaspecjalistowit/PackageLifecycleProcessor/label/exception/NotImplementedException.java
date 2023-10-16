@@ -1,4 +1,4 @@
-package pl.akademiaspecjalistowit.PackageLifecycleProcessor.labelGeneration.exception;
+package pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.exception;
 
 public class NotImplementedException extends RuntimeException {
     public NotImplementedException(String message) {
