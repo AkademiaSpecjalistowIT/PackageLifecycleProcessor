@@ -24,15 +24,16 @@ public class PaymentServiceInMemoryImpl implements PaymentService {
 
     public void confirmPayment(UUID packageId, UUID userId) {
         // TODO znaleść buga
-        boolean isPaymentSuccessful = chargeUser(packageId, userId);
-        if (!isPaymentSuccessful) {
-            throw new PaymentServiceException("Payment failed. Please chargeUp you wallet");
-        }
         Transaction transaction = activatedPayments.stream()
             .filter(e -> e.getPackageId().equals(packageId))
             .findAny()
             .orElseThrow(() -> new PaymentServiceException(
                 "Cannot correlate payment confirmation for id: " + packageId));
+
+        boolean isPaymentSuccessful = chargeUser(transaction.getTransactionId(), userId);
+        if (!isPaymentSuccessful) {
+            throw new PaymentServiceException("Payment failed. Please chargeUp you wallet");
+        }
 
         transaction.finalizeTransaction();
         activatedPayments.add(transaction);
@@ -47,7 +48,7 @@ public class PaymentServiceInMemoryImpl implements PaymentService {
             paymentRequestDto.getAmount()));
     }
 
-    private boolean chargeUser(UUID packageId, UUID userId) {
-        return userService.debitCustomerAccount(packageId, userId);
+    private boolean chargeUser(UUID transacitonId, UUID userId) {
+        return userService.debitCustomerAccount(transacitonId, userId);
     }
 }
