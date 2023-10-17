@@ -22,4 +22,8 @@ public class Label {
         this.paymentStatus = PaymentStatus.PENDING;
     }
 
+    public void updatePaymentStatusCompleted(){
+        this.paymentStatus = PaymentStatus.COMPLETED;
+    }
+
 }

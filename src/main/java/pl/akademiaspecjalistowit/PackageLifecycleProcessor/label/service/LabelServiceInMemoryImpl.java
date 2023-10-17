@@ -1,8 +1,5 @@
 package pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.service;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 import pl.akademiaspecjalistowit.PackageLifecycleProcessor.exception.PaymentRequiredException;
@@ -11,19 +8,20 @@ import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.dto.LabelDto;
 import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.mapper.LabelMapper;
 import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.model.Label;
 import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.model.PaymentStatus;
+import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.repository.LabelRepository;
 
 @Service
 public class LabelServiceInMemoryImpl implements LabelService {
 
-    private Map<UUID, Label> labelMap;
+    private LabelRepository labelRepository;
 
-    public LabelServiceInMemoryImpl() {
-        this.labelMap = new HashMap<>();
+    public LabelServiceInMemoryImpl(LabelRepository labelRepository) {
+        this.labelRepository = labelRepository;
     }
 
     @Override
     public LabelDto getPackageLabel(UUID packageId) {
-        Label label = Optional.ofNullable(labelMap.get(packageId))
+        Label label = labelRepository.findByPackageId(packageId)
             .orElseThrow(LabelNotFoundException::new);
 
         if (!PaymentStatus.COMPLETED.equals(label.getPaymentStatus())) {
@@ -37,7 +35,7 @@ public class LabelServiceInMemoryImpl implements LabelService {
     public UUID registerPackage(LabelDto labelDto) {
         UUID packageId = UUID.randomUUID();
         Label label = LabelMapper.fromDto(labelDto, packageId);
-        labelMap.put(packageId, label);
+        labelRepository.save(label);
         return packageId;
     }
 }
