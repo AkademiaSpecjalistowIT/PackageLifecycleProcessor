@@ -1,27 +1,53 @@
 package pl.akademiaspecjalistowit.PaymentService.payment.service;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import pl.akademiaspecjalistowit.PaymentService.payment.dto.PaymentRequestDto;
+import pl.akademiaspecjalistowit.PaymentService.payment.model.Transaction;
+import pl.akademiaspecjalistowit.PaymentService.user.UserService;
 
 @Service
 @Slf4j
 public class PaymentServiceInMemoryImpl implements PaymentService {
 
-    private final Map<UUID, Boolean> activatedPayments;
+    private final UserService userService;
+    private final Set<Transaction> activatedPayments;
 
-    public PaymentServiceInMemoryImpl() {
-        activatedPayments = new HashMap<>();
+    public PaymentServiceInMemoryImpl(UserService userService) {
+        this.userService = userService;
+        activatedPayments = new HashSet<>();
     }
 
-    public void confirmPayment(UUID packageId) {
-        if (!activatedPayments.containsKey(packageId)) {
-            throw new PaymentServiceException(
-                "Cannot correlate payment confirmation for id: " + packageId);
+    public void confirmPayment(UUID packageId, UUID userId) {
+        // TODO znaleść buga
+        boolean isPaymentSuccessful = chargeUser(packageId, userId);
+        if (!isPaymentSuccessful) {
+            throw new PaymentServiceException("Payment failed. Please chargeUp you wallet");
         }
-        activatedPayments.put(packageId, true);
+        Transaction transaction = activatedPayments.stream()
+            .filter(e -> e.getPackageId().equals(packageId))
+            .findAny()
+            .orElseThrow(() -> new PaymentServiceException(
+                "Cannot correlate payment confirmation for id: " + packageId));
+
+        transaction.finalizeTransaction();
+        activatedPayments.add(transaction);
         log.info("Payment confirmed for package {}", packageId);
+    }
+
+    @Override
+    public void registerPayment(PaymentRequestDto paymentRequestDto) {
+        activatedPayments.add(new Transaction(
+            paymentRequestDto.getPackageId(),
+            UUID.randomUUID(),
+            paymentRequestDto.getAmount()));
+    }
+
+    private boolean chargeUser(UUID packageId, UUID userId) {
+        return userService.debitCustomerAccount(packageId, userId);
     }
 }
