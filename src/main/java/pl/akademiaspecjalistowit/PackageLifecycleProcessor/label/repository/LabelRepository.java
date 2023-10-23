@@ -2,11 +2,12 @@ package pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.repository;
 
 import java.util.Optional;
 import java.util.UUID;
-import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.model.Label;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.entity.LabelEntity;
 
-public interface LabelRepository {
+@Repository
+public interface LabelRepository extends JpaRepository<LabelEntity, Long> {
 
-    void save(Label label);
-
-    Optional<Label> findByPackageId(UUID packageId);
+    Optional<LabelEntity> findByPackageId(UUID packageId);
 }

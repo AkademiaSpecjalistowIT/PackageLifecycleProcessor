@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.dto.LabelDto;
+import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.dto.LabelInput;
 import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.service.LabelService;
 
 @RestController
@@ -16,7 +17,7 @@ import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.service.LabelSe
 @AllArgsConstructor
 public class LabelController {
 
-    private final LabelService labelService;
+    private LabelService labelService;
 
     @GetMapping("/label/{packageId}")
     public LabelDto getPackageLabel(@PathVariable UUID packageId) {
@@ -24,7 +25,7 @@ public class LabelController {
     }
 
     @PostMapping("/label")
-    public UUID registerPackage(@RequestBody LabelDto labelDto) {
-        return labelService.registerPackage(labelDto);
+    public UUID registerPackage(@RequestBody LabelInput labelInput) {
+        return labelService.registerPackage(labelInput);
     }
 }
