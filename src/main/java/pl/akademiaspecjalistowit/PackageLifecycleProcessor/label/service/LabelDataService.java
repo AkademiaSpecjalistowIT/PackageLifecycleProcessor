@@ -1,9 +1,9 @@
 package pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.service;
 
+import java.util.Optional;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.LabelNotFoundException;
 import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.entity.LabelEntity;
 import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.mapper.LabelMapper;
 import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.model.Label;
@@ -20,9 +20,8 @@ public class LabelDataService {
         labelRepository.save(labelEntity);
     }
 
-    public Label getLabel(UUID packageId){
+    public Optional<Label> getLabel(UUID packageId){
         return labelRepository.findByPackageId(packageId)
-            .map(LabelMapper.INSTANCE::fromEntity)
-            .orElseThrow(LabelNotFoundException::new);
+            .map(LabelMapper.INSTANCE::fromEntity);
     }
 }

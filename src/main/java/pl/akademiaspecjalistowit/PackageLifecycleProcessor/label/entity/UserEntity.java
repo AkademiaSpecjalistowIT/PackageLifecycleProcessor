@@ -15,7 +15,7 @@ import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.model.Address;
 @Entity
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserEntity {
 
     @Id

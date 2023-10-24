@@ -9,14 +9,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
-import pl.akademiaspecjalistowit.PackageLifecycleProcessor.exception.PaymentRequiredException;
 import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.dto.AddressDto;
 import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.dto.LabelDto;
 import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.dto.LabelInput;
 import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.dto.UserDto;
 import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.entity.LabelEntity;
+import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.exception.PaymentNotSettledException;
 import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.mapper.LabelMapper;
 import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.model.Label;
+import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.model.PackageSize;
 import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.repository.LabelRepository;
 import pl.akademiaspecjalistowit.PackageLifecycleProcessor.payment.PaymentService;
 
@@ -29,9 +30,10 @@ class LabelServiceTest {
     @BeforeEach
     void setUp() {
         labelRepositoryMock = Mockito.mock(LabelRepository.class);
+        LabelPricingService labelPricingService = Mockito.mock(LabelPricingService.class);
         PaymentService paymentService = Mockito.mock(PaymentService.class);
         LabelDataService labelDataService = new LabelDataService(labelRepositoryMock);
-        labelServiceSuT = new LabelServiceImpl(labelDataService, paymentService);
+        labelServiceSuT = new LabelServiceImpl(labelDataService, paymentService, labelPricingService);
     }
 
     @Test
@@ -47,7 +49,7 @@ class LabelServiceTest {
         Executable e = () -> labelServiceSuT.getPackageLabel(packageId);
 
         //then
-        assertThrows(PaymentRequiredException.class, e);
+        assertThrows(PaymentNotSettledException.class, e);
     }
 
     @Test
@@ -56,7 +58,7 @@ class LabelServiceTest {
         //given
         LabelInput labelInput = prepareValidLabelInput();
         UUID packageId = labelServiceSuT.registerPackage(labelInput);
-        Mockito.when(labelRepositoryMock.findByPackageId(packageId))
+        Mockito.when(labelRepositoryMock.findByPackageId(Mockito.any()))
             .thenReturn(Optional.of(prepareValidLabelEntityWithPaymentInStatusCompleted(packageId)));
 
         //when
@@ -71,7 +73,7 @@ class LabelServiceTest {
     }
 
     private LabelInput prepareValidLabelInput() {
-        String packageSize = "M";
+        PackageSize packageSize = PackageSize.MEDIUM;
         AddressDto from = new AddressDto("Lodz", "91-600", "ul. Piotrkowska 256b");
         AddressDto to = new AddressDto("Warszawa", "00-100", "ul. Marszałkowska 10/34");
         UserDto sender = new UserDto(from, "444-444-444", "adam@example.com");
@@ -87,7 +89,7 @@ class LabelServiceTest {
 
     private Label prepareValidLabelWithPaymentInStatusPending(UUID packageId) {
         LabelInput labelInput = prepareValidLabelInput();
-        return LabelMapper.INSTANCE.fromInput(labelInput, packageId); //todo add missing packageId
+        return LabelMapper.INSTANCE.fromInput(labelInput, packageId);
     }
 
     private LabelEntity prepareValidLabelEntityWithPaymentInStatusCompleted(UUID packageId) {

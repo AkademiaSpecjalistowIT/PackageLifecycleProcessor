@@ -1,0 +1,5 @@
+prop:
+  http:
+    payment-service:
+      url: "http://localhost:8081"
+      register-payment-path: "/payment/register"

@@ -10,12 +10,13 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.model.PackageSize;
 import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.model.PaymentStatus;
 
 @Entity
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class LabelEntity {
 
     @Id
@@ -24,7 +25,7 @@ public class LabelEntity {
 
     private UUID packageId;
 
-    private String packageSize;
+    private PackageSize packageSize;
 
     @OneToOne
     private UserEntity receiver;
