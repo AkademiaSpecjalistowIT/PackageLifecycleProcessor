@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
-import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.exception.MissingPackagePricingConfiguration;
+import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.exception.MissingPackagePricingConfigurationException;
 import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.model.Label;
 import pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.model.PackageSize;
 
@@ -23,6 +23,6 @@ public class LabelPricingService {
 
     public BigDecimal calculatePriceForPackage(Label label) {
         return Optional.ofNullable(packagePricingSelector.get(label.getPackageSize()))
-            .orElseThrow(MissingPackagePricingConfiguration::new);
+            .orElseThrow(MissingPackagePricingConfigurationException::new);
     }
 }

@@ -1,0 +1,4 @@
+package pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.exception;
+
+public class MissingPackagePricingConfigurationException extends RuntimeException{
+}
