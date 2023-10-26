@@ -24,4 +24,8 @@ public class LabelDataService {
         return labelRepository.findByPackageId(packageId)
             .map(LabelMapper.INSTANCE::fromEntity);
     }
+
+    public void update(Label label) {
+        labelRepository.save(LabelMapper.INSTANCE.toEntity(label));
+    }
 }

@@ -9,4 +9,6 @@ public interface LabelService {
     LabelDto getPackageLabel(UUID packageId);
 
     UUID registerPackage(LabelInput labelInput);
+
+    void updatePackagePaymentStatus(UUID packageId);
 }

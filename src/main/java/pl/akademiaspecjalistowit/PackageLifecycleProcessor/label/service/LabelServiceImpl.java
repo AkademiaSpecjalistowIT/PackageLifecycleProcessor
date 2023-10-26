@@ -1,5 +1,6 @@
 package pl.akademiaspecjalistowit.PackageLifecycleProcessor.label.service;
 
+import jakarta.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
@@ -17,9 +18,9 @@ import pl.akademiaspecjalistowit.PackageLifecycleProcessor.payment.PaymentServic
 @AllArgsConstructor
 public class LabelServiceImpl implements LabelService {
 
-    private LabelDataService labelDataService;
-    private PaymentService paymentService;
-    private LabelPricingService labelPricingService;
+    private final LabelDataService labelDataService;
+    private final PaymentService paymentService;
+    private final LabelPricingService labelPricingService;
 
     @Override
     public LabelDto getPackageLabel(UUID packageId) {
@@ -27,12 +28,6 @@ public class LabelServiceImpl implements LabelService {
             .orElseThrow(LabelNotFoundException::new);
         verifyThatPackageIsPaid(label);
         return LabelMapper.INSTANCE.toDto(label);
-    }
-
-    private void verifyThatPackageIsPaid(Label label) {
-        if (!PaymentStatus.COMPLETED.equals(label.getPaymentStatus())) {
-            throw new PaymentNotSettledException();
-        }
     }
 
     @Override
@@ -43,6 +38,21 @@ public class LabelServiceImpl implements LabelService {
         paymentService.registerPaymentCommitment(label.getPackageId(), priceForPackage);
         labelDataService.save(label);
         return label.getPackageId();
+    }
+
+    @Override
+    @Transactional
+    public void updatePackagePaymentStatus(UUID packageId) {
+        Label label = labelDataService.getLabel(packageId)
+            .map(Label::updatePaymentStatusCompleted)
+            .orElseThrow(LabelNotFoundException::new);
+        labelDataService.update(label);
+    }
+
+    private void verifyThatPackageIsPaid(Label label) {
+        if (!PaymentStatus.COMPLETED.equals(label.getPaymentStatus())) {
+            throw new PaymentNotSettledException();
+        }
     }
 
     private Label saveLabel(LabelInput labelInput) {

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
 public class Label {
+    private Long id;
     private UUID packageId;
     private PackageSize packageSize;
     private User receiver;
@@ -20,11 +21,12 @@ public class Label {
                                     PackageSize packageSize,
                                     User receiver,
                                     User sender) {
-        return new Label(packageId, packageSize, receiver, sender, PaymentStatus.PENDING);
+        return new Label(null, packageId, packageSize, receiver, sender, PaymentStatus.PENDING);
     }
 
-    public void updatePaymentStatusCompleted() {
+    public Label updatePaymentStatusCompleted() {
         this.paymentStatus = PaymentStatus.COMPLETED;
+        return this;
     }
 
 }
