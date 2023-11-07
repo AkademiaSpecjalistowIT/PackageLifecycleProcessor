@@ -16,7 +16,6 @@ public interface LabelMapper {
 
     LabelEntity toEntity(Label label);
 
-    @Mapping(source = "paymentStatus", target = "paymentStatus")
     Label fromEntity(LabelEntity labelEntity);
 
     LabelDto toDto(Label label);

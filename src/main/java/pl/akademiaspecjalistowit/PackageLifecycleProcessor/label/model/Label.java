@@ -17,12 +17,16 @@ public class Label {
     private User sender;
     private PaymentStatus paymentStatus;
 
-    public static Label createLabel(UUID packageId,
-                                    PackageSize packageSize,
-                                    User receiver,
-                                    User sender) {
-        return new Label(null, packageId, packageSize, receiver, sender, PaymentStatus.PENDING);
+    @Default
+    public Label(UUID packageId, PackageSize packageSize,
+                 User receiver, User sender) {
+        this.packageId = packageId;
+        this.packageSize = packageSize;
+        this.receiver = receiver;
+        this.sender = sender;
+        this.paymentStatus = PaymentStatus.PENDING;
     }
+
 
     public Label updatePaymentStatusCompleted() {
         this.paymentStatus = PaymentStatus.COMPLETED;
